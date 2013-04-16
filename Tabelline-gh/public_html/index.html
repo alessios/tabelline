@@ -1,0 +1,180 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tabelline v0.1</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <style>
+            
+            .tabelline {
+                font-size: 60px;
+            }
+            footer {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="#">Tabelline!</a>
+                    <div class="nav-collapse collapse">
+
+                        <ul class="nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    <div class="well sidebar-nav">
+                        <ul class="nav nav-list">
+                            <li class="nav-header">Sidebar</li>
+                            <li class="active">Scegli</li>
+                            <li><input class="tabsel" type="checkbox" id="chk1" value="1"/>Tabellina dell'1 </li>
+                            <li><input class="tabsel" type="checkbox" id="chk2" value="2"/>Tabellina del 2 </li>
+                            <li><input class="tabsel" type="checkbox" id="chk3" value="3"/>Tabellina del 3 </li>
+                            <li> <input class="tabsel" type="checkbox" id="chk4" value="4"/>Tabellina del 4</li>
+                            <li><input class="tabsel" type="checkbox" id="chk5" value="5"/>Tabellina del 5 </li>
+                            <li><input class="tabsel"  type="checkbox" id="chk6" value="6"/>Tabellina del 6 </li>
+                            <li><input class="tabsel" type="checkbox" id="chk7" value="7"/>Tabellina del 7 </li>
+                            <li><input class="tabsel" type="checkbox" id="chk8" value="8"/>Tabellina del 8 </li>
+                            <li><input class="tabsel" type="checkbox" id="chk9" value="9"/>Tabellina del 9 </li>
+                            <li><input class="tabsel" type="checkbox" id="chk10" checked value="10"/>Tabellina del 10 </li>
+                        </ul>
+                    </div><!--/.well -->
+                </div><!--/span-->
+                <div class="span9">
+                    <div class="hero-unit">
+                        <h1>Tabelline!</h1>
+                        <div><!-- start interface -->
+                            <div id="stats" style="padding:10px;">
+                                <span  id="esatti">0</span>
+                                <span > esatti su </span>
+                                <span id="esercizi">0</span>
+                            </div>
+                            <div style="padding:10px;">
+                                <span class="tabelline" id="m1">5</span>
+                                <span class="tabelline">X</span>
+                                <span class="tabelline" id="m2">5</span>
+                                <span class="tabelline">=</span>
+                                <span class="tabelline" id="res"><input class="tabelline" type="text" id="result" style="font-size:60px; width:100px; height: 65px;"/></span>
+                                <!-- <span><input type="button" id="new" value="Ok" class="tabelline btn btn-primary btn-large"/></span> -->
+                            </div>
+                            <div id="dialog">
+                                
+                            </div> 
+                            <div id="img">
+                                <img src="img/sheldon.jpeg" />
+                            </div>
+                            <div id="img2">
+                                <img src="img/raj.jpg" />
+                            </div>
+                        </div><!-- end interface -->
+
+
+                    </div>
+
+                </div><!--/span-->
+            </div><!--/row-->
+        </div>
+        <hr />
+
+        <footer>
+            <p>&copy;Papu 2013</p>
+        </footer>
+
+
+
+        <script src="js/libs/jquery-1.9.0/jquery.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $("#img").fadeOut();
+            $("#img2").fadeOut();
+            var esercizi=0;
+            var esatti=0;
+            var complimenti = ["Bravo","Super","Bravissimo","Grande","Campione","Sheldon"];
+            var insulti = ["Imbra","Tonto","Pollo","Ma ti pare?","GNE-GNE-GNE","Penny"];
+            var randArray = function(arr) {
+                return arr[Math.round(Math.random()*arr.length)%arr.length];
+            };
+            var insulto = function() {
+                return randArray(insulti);
+            };
+            var enabled = [10];
+            $("#new").click(function(evt) {
+                checkTest();
+                newTest();
+            });
+            $(".tabsel").click(function(e) {
+                enabled=[];
+                $(".tabsel").each(function(i,chk){
+                    if (chk.checked) {
+                        enabled.push(chk.value);
+                    }
+                   
+                });
+   
+                newTest();
+            });
+            $("#result").keydown(function(evt) {
+                if (event.which === 13) {
+                    event.preventDefault();
+                    checkTest();
+                    newTest();
+                }
+            });
+            var newTest = function() {
+                var m1 = Math.round(Math.random() * 10);
+                var m2 = randArray(enabled);
+                $("#m1").text(m1);
+                $("#m2").text(m2);
+            }
+            var checkTest = function() {
+                esercizi++;
+                var m1 =parseInt( $("#m1").text());
+                var m2 = parseInt($("#m2").text());
+                var res = $("#result").val();
+                if (m1 * m2 !== parseInt(res)) {
+                    $("#dialog").text(m1 + " * " + m2 + " = " + (m1*m2) + " " + insulto()+"!");
+                    $("#dialog").addClass("alert alert-error");
+                    $("#dialog").removeClass("alert alert-success");
+            $("#img2").slideUp();        
+            $("#img").slideDown();
+                    
+                } else {
+                    esatti++;
+                    $("#dialog").text(randArray(complimenti)+"!");
+                    $("#dialog").addClass("alert alert-success");
+                    $("#dialog").removeClass("alert alert-error");
+                    $("#img").slideUp();
+                    $("#img2").slideDown();
+                }
+                $("#esatti").text(esatti);
+                $("#esercizi").text(esercizi);
+                $("#result").val("");
+                $("#result").focus();
+            };
+            newTest();
+        </script>
+    </body>
+</html>
